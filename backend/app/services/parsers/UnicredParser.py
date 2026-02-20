@@ -1,8 +1,9 @@
-from base_parser import BaseParser
+from BaseParser import BaseParser
 import pdfplumber, re
 from ...dto.transaction_dto import TransactionDTO
 from decimal import Decimal
 from datetime import datetime
+from tempfile import TemporaryFile
 
 class UnicredParser(BaseParser):
     date_pattern = re.compile(r"^\d\d/\d\d/\d\d\d\d")
@@ -53,10 +54,10 @@ class UnicredParser(BaseParser):
         return TransactionDTO(date=date, description=description or "SEM_DESCRICAO", amount=amount, category=None, transaction_type=transaction_type) 
 
 
-    def parse(self, file_path: str) -> list[TransactionDTO]:
+    def parse(self, file: TemporaryFile) -> list[TransactionDTO]:
         transactions = []
 
-        with pdfplumber.open(file_path) as pdf:
+        with pdfplumber.open(file) as pdf:
             for page in pdf.pages:
                 text = page.extract_text()
                 if text is None:

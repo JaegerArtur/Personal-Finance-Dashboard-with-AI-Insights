@@ -1,4 +1,4 @@
-from base_parser import BaseParser
+from BaseParser import BaseParser
 
 class PicpayParser(BaseParser):
     pass
