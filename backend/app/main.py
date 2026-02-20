@@ -1,8 +1,7 @@
 from fastapi import FastAPI
-from .core.database import engine, Base
 
-from .models.user import User
-from .models.account import Account
-from .models.transaction import Transaction
+app = FastAPI()
 
-Base.metadata.create_all(bind=engine)
+@app.get("/")
+def root():
+    return {"Hello": {"World"}}
